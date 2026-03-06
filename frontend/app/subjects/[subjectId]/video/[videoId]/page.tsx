@@ -17,7 +17,6 @@ export default function VideoPage() {
   const [subjectTree, setSubjectTree] = useState<SubjectTree | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [player, setPlayer] = useState<any>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
 
   const subjectId = Number(params.subjectId);
@@ -37,8 +36,12 @@ export default function VideoPage() {
         ]);
         setVideo(videoData);
         setSubjectTree(treeData);
-      } catch (err) {
-        setError((err as any).response?.data?.error?.message || 'Failed to load video');
+      } catch (error) {
+        if ((error as any).response?.data?.error?.message) {
+          setError((error as any).response.data.error.message);
+        } else {
+          setError('Failed to load video');
+        }
       } finally {
         setIsLoading(false);
       }
@@ -59,8 +62,6 @@ export default function VideoPage() {
   };
 
   const onPlayerReady = (event: YouTubeEvent) => {
-    setPlayer(event.target);
-    
     // Seek to last position if available
     if (video?.progress?.last_position_seconds) {
       event.target.seekTo(video.progress.last_position_seconds, true);

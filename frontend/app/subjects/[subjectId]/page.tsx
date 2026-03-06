@@ -27,8 +27,12 @@ export default function SubjectPage() {
       try {
         const tree = await subjectsApi.getTree(subjectId);
         setSubjectTree(tree);
-      } catch (err) {
-        setError((err as any).response?.data?.error?.message || 'Failed to load subject');
+      } catch (error) {
+        if ((error as any).response?.data?.error?.message) {
+          setError((error as any).response.data.error.message);
+        } else {
+          setError('Failed to load subject');
+        }
       } finally {
         setIsLoading(false);
       }
