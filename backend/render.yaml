@@ -2,7 +2,7 @@ services:
   - type: web
     name: lms-backend
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && npm run build && echo "Build completed at $(date)"
     startCommand: npm start
     envVars:
       - key: NODE_ENV
