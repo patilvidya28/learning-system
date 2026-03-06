@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import YouTube from 'react-youtube';
+import YouTube, { YouTubeEvent } from 'react-youtube';
 import { useAuthStore } from '@/store/authStore';
 import { videosApi, VideoDetail } from '@/lib/videos';
 import { subjectsApi, SubjectTree } from '@/lib/subjects';
@@ -37,12 +37,8 @@ export default function VideoPage() {
         ]);
         setVideo(videoData);
         setSubjectTree(treeData);
-      } catch (err: any) {
-        if (err.response?.status === 403) {
-          setError('This video is locked. Please complete the previous video first.');
-        } else {
-          setError(err.response?.data?.error?.message || 'Failed to load video');
-        }
+      } catch (err) {
+        setError((err as any).response?.data?.error?.message || 'Failed to load video');
       } finally {
         setIsLoading(false);
       }
@@ -62,7 +58,7 @@ export default function VideoPage() {
     return match ? match[1] : '';
   };
 
-  const onPlayerReady = (event: any) => {
+  const onPlayerReady = (event: YouTubeEvent) => {
     setPlayer(event.target);
     
     // Seek to last position if available
@@ -83,7 +79,7 @@ export default function VideoPage() {
     }, 5000); // Update every 5 seconds
   };
 
-  const onPlayerStateChange = async (event: any) => {
+  const onPlayerStateChange = async (event: YouTubeEvent) => {
     // YouTube player state: 0 = ended
     if (event.data === 0 && video) {
       // Mark as completed
