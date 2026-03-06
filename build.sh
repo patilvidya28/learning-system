@@ -17,6 +17,7 @@ npx tsc
 # Verify build output
 if [ -f "dist/server.js" ]; then
     echo "✅ Build successful! dist/server.js created"
+    ls -la dist/
 else
     echo "❌ Build failed! dist/server.js not found"
     exit 1

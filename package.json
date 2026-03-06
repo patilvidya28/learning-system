@@ -1,0 +1,10 @@
+{
+  "name": "learning-system",
+  "version": "1.0.0",
+  "description": "Learning Management System",
+  "private": true,
+  "scripts": {
+    "build": "sh build.sh",
+    "start": "cd backend && node dist/server.js"
+  }
+}
