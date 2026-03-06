@@ -20,7 +20,7 @@ app.use(helmet());
 
 // CORS
 app.use(cors({
-  origin: [env.FRONTEND_URL, 'http://localhost:3000', process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '*'].filter(Boolean) as string[],
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
