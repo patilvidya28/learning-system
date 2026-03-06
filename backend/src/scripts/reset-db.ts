@@ -1,4 +1,4 @@
-import { pool, query } from './config/database';
+import { pool, query } from '../config/database';
 
 const resetDatabase = async (): Promise<void> => {
   try {
